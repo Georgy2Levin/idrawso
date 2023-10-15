@@ -1,7 +1,8 @@
+import { ShowElements } from "./ui/ShowElements.js";
+
 const prefix = '/500/';
 const sPrefix = '/500s/';
 
-const ACTIVE_CLASS = "active";
 const about = document.querySelector(".about");
 const buttonList = document.querySelector(".button-list");
 const buttonClose = document.querySelector(".button-close");
@@ -9,24 +10,8 @@ const sectionsDiv = document.querySelector(".sections");
 const buttonsDiv = document.querySelector(".buttons-div");
 const detailsContainer = document.querySelector(".details-container");
 const detailsImage = document.querySelector(".details-image");
+let showElements;
 
-function show(index) {
-    about.hidden = true;
-    const buttonElements = document.querySelectorAll(".button-menu");
-    const sectionElements = document.querySelectorAll("section");
-    buttonElements.forEach(b => b.classList.remove(ACTIVE_CLASS));
-    sectionElements.forEach(s => s.hidden = true);    
-    buttonElements[index].classList.add(ACTIVE_CLASS);
-    sectionElements[index].hidden = false;
-}
-
-function showAll() {    
-    const buttonElements = document.querySelectorAll(".button-menu");
-    const sectionElements = document.querySelectorAll("section");
-    buttonElements.forEach(b => b.classList.remove(ACTIVE_CLASS));
-    sectionElements.forEach(s => s.hidden = false);    
-    buttonElements[buttonElements.length-1].classList.add(ACTIVE_CLASS);
-}
 
 function getMiniatures(name, arNames) {    
     const res = arNames.map(n => {let nameExt = `${n}.jpg`;
@@ -56,9 +41,19 @@ async function showButtonsMakeSections() {
 
     buttonsDiv.innerHTML = `${elements.buttons}<button class="button-menu" onclick="showAll()">SHOW ALL</button>`;
     sectionsDiv.innerHTML = elements.sections;
+    showElements = new ShowElements();
 }
 
 showButtonsMakeSections();
+
+function show(index) {
+    showElements.show(index);
+}
+
+function showAll() {
+    showElements.showAll();
+}
+
 
 function fillSection(name, arNames) {
    return `<div class="span-section"><span class="span-title">${name}</span></div>${getMiniatures(name, arNames)}`
@@ -74,3 +69,9 @@ function showListButtons(bool) {
 function hideDetails() {
     detailsContainer.hidden = true;
 }
+
+window.show = show;
+window.showAll = showAll;
+window.zoom = zoom;
+window.showListButtons = showListButtons;
+window.hideDetails = hideDetails;
