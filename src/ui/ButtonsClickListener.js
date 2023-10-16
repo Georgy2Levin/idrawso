@@ -4,17 +4,24 @@ export class ButtonsClickListener {
     #sectionElements = document.querySelectorAll(".sections section");
     #ACTIVE_CLASS = "active";
 
-    show(index) {
-        index = +index;
+    constructor() {
+        this.addClickListener();
+    }
+
+    disactiveBeforeShow() {
         this.#buttonElements.forEach(b => b.classList.remove(this.#ACTIVE_CLASS));
+    }
+
+    show(index) {
+        this.disactiveBeforeShow();
         this.#buttonElementAll.classList.remove(this.#ACTIVE_CLASS);
         this.#sectionElements.forEach(s => s.hidden = true);
         this.#buttonElements[index].classList.add(this.#ACTIVE_CLASS);
         this.#sectionElements[index].hidden = false;
     }
     
-    showAll() {    
-        this.#buttonElements.forEach(b => b.classList.remove(this.#ACTIVE_CLASS));
+    showAll() {
+        this.disactiveBeforeShow();
         this.#sectionElements.forEach(s => s.hidden = false);    
         this.#buttonElementAll.classList.add(this.#ACTIVE_CLASS);
     }

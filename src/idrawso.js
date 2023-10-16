@@ -47,8 +47,6 @@ async function showButtonsMakeSections() {
 
 function addButtonsClickListener() {
     const buttons = new ButtonsClickListener();
-    buttons.addClickListener();
-
 }
 
 function fillSection(name, arNames) {
