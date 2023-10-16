@@ -1,4 +1,4 @@
-import { ShowElements } from "./ui/ShowElements.js";
+import { ButtonsClickListener } from "./ui/ButtonsClickListener.js";
 
 const prefix = '/500/';
 const sPrefix = '/500s/';
@@ -10,8 +10,7 @@ const sectionsDiv = document.querySelector(".sections");
 const buttonsDiv = document.querySelector(".buttons-div");
 const detailsContainer = document.querySelector(".details-container");
 const detailsImage = document.querySelector(".details-image");
-let showElements;
-
+let first = true;
 
 function getMiniatures(name, arNames) {    
     const res = arNames.map(n => {let nameExt = `${n}.jpg`;
@@ -34,32 +33,33 @@ async function showButtonsMakeSections() {
         let nameObj = `${cur[0]}`;
         let name = nameObj.replace("-s-","&#10076;s-");
         name = name.replace(/-/g, " ");        
-        res.buttons += `<button class="button-menu" onclick="show(${i})">${name}</button>`;
+        res.buttons += `<button class="button-menu")">${name}</button>`;
         res.sections += `<section class="${nameObj}" hidden>${fillSection(name, cur[1])}</section>`
         return res;
     },{"buttons":'',"sections":''});
 
-    buttonsDiv.innerHTML = `${elements.buttons}<button class="button-menu" onclick="showAll()">SHOW ALL</button>`;
+    buttonsDiv.innerHTML = `${elements.buttons}<button class="button-menu-all">SHOW ALL</button>`;
     sectionsDiv.innerHTML = elements.sections;
-    showElements = new ShowElements();
+    addButtonsClickListener();
 }
 
-showButtonsMakeSections();
 
-function show(index) {
-    showElements.show(index);
+
+function addButtonsClickListener() {
+    const buttons = new ButtonsClickListener();
+    buttons.addClickListener();
+
 }
-
-function showAll() {
-    showElements.showAll();
-}
-
 
 function fillSection(name, arNames) {
    return `<div class="span-section"><span class="span-title">${name}</span></div>${getMiniatures(name, arNames)}`
 }
 
 function showListButtons(bool) {
+    if(first == true) {
+        showButtonsMakeSections();
+        first = false;
+    }
     about.hidden = true;
     buttonsDiv.hidden = !bool;
     buttonList.hidden = bool;
@@ -70,8 +70,7 @@ function hideDetails() {
     detailsContainer.hidden = true;
 }
 
-window.show = show;
-window.showAll = showAll;
+
 window.zoom = zoom;
 window.showListButtons = showListButtons;
 window.hideDetails = hideDetails;
