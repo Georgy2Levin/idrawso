@@ -1,21 +1,13 @@
-import { showButtonsMakeSections } from "./construction.js";
-import { ButtonsClickListener } from "./ButtonsClickListener.js";
-import { ImgClickListener } from "./ImgClickListener.js";
-
 export class ShowCloseListener {
     #about = document.querySelector(".about");
     #buttonsDiv = document.querySelector(".buttons-div");
     #buttonList = document.querySelector(".button-list");
     #buttonClose = document.querySelector(".button-close");
     #first = true;
-
-    constructor() {  
-        this.addClickListener();        
-    }
     
-    showListButtons(bool) {
+    showListButtons(bool, foo) {
         if(this.#first == true) {
-            showButtonsMakeSections(addImgButtonClickListeners);
+            foo();
             this.#first = false;
         }
         this.#about.hidden = true;
@@ -24,13 +16,8 @@ export class ShowCloseListener {
         this.#buttonClose.hidden = !bool;
     }
 
-    addClickListener() {
-        this.#buttonList.addEventListener("click", () => this.showListButtons(true));
+    addClickListener(foo) {
+        this.#buttonList.addEventListener("click", () => this.showListButtons(true, foo));
         this.#buttonClose.addEventListener("click", () => this.showListButtons(false));
     }
-}
-
-function  addImgButtonClickListeners() {
-    const buttons = new ButtonsClickListener();
-    const img = new ImgClickListener();
 }
