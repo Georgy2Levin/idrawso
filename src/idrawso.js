@@ -1,16 +1,16 @@
 import { ButtonsClickListener } from "./ui/ButtonsClickListener.js";
 import { ImgClickListener } from "./ui/ImgClickListener.js";
+import { ShowCloseListener } from "./ui/ShowCloseListener.js";
 
 const prefix = '/500/';
 const sPrefix = '/500s/';
 
-const about = document.querySelector(".about");
-const buttonList = document.querySelector(".button-list");
-const buttonClose = document.querySelector(".button-close");
+
 const sectionsDiv = document.querySelector(".sections");
 const buttonsDiv = document.querySelector(".buttons-div");
 const detailsContainer = document.querySelector(".details-container");
-let first = true;
+
+new ShowCloseListener();
 
 function getMiniatures(name, arNames) {    
     const res = arNames.map(n => {let nameExt = `${n}.jpg`;
@@ -19,9 +19,11 @@ function getMiniatures(name, arNames) {
     return res.join('');
 }
 
+function fillSection(name, arNames) {
+    return `<div class="span-section"><span class="span-title">${name}</span></div>${getMiniatures(name, arNames)}`
+ }
 
-
-async function showButtonsMakeSections() {
+export async function showButtonsMakeSections() {
     const allFotos = fetch("/src/fotos.json")
                     .then(res => res.json());
     const objFotos = await allFotos;
@@ -41,31 +43,13 @@ async function showButtonsMakeSections() {
 }
 
 
-
 function addClickListeners() {
     const buttons = new ButtonsClickListener();
     const img = new ImgClickListener();
-}
-
-function fillSection(name, arNames) {
-   return `<div class="span-section"><span class="span-title">${name}</span></div>${getMiniatures(name, arNames)}`
-}
-
-function showListButtons(bool) {
-    if(first == true) {
-        showButtonsMakeSections();
-        first = false;
-    }
-    about.hidden = true;
-    buttonsDiv.hidden = !bool;
-    buttonList.hidden = bool;
-    buttonClose.hidden = !bool;
 }
 
 function hideDetails() {
     detailsContainer.hidden = true;
 }
 
-
-window.showListButtons = showListButtons;
 window.hideDetails = hideDetails;
