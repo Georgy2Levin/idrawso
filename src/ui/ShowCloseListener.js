@@ -1,4 +1,6 @@
-import { showButtonsMakeSections } from "../idrawso.js";
+import { showButtonsMakeSections } from "./construction.js";
+import { ButtonsClickListener } from "./ButtonsClickListener.js";
+import { ImgClickListener } from "./ImgClickListener.js";
 
 export class ShowCloseListener {
     #about = document.querySelector(".about");
@@ -8,13 +10,12 @@ export class ShowCloseListener {
     #first = true;
 
     constructor() {  
-        this.addClickListener();
+        this.addClickListener();        
     }
-
     
     showListButtons(bool) {
         if(this.#first == true) {
-            showButtonsMakeSections();
+            showButtonsMakeSections(addImgButtonClickListeners);
             this.#first = false;
         }
         this.#about.hidden = true;
@@ -27,4 +28,9 @@ export class ShowCloseListener {
         this.#buttonList.addEventListener("click", () => this.showListButtons(true));
         this.#buttonClose.addEventListener("click", () => this.showListButtons(false));
     }
+}
+
+function  addImgButtonClickListeners() {
+    const buttons = new ButtonsClickListener();
+    const img = new ImgClickListener();
 }
