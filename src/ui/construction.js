@@ -16,19 +16,14 @@ function fillSection(name, arNames) {
  }
 
 export async function showButtonsMakeSections(foo) {
-    const allFotos = fetch("/src/fotos.json")
+    const allFotosJson = await fetch("/src/fotos.json")
                     .then(res => res.json());
-    const objFotos = await allFotos;
-    const arNamesFotos = Object.entries(objFotos);
-    const elements = arNamesFotos.reduce((res, cur) => {      
-        let nameObj = `${cur[0]}`;
-        let name = nameObj.replace("-s-","&#10076;s-");
-        name = name.replace(/-/g, " ");        
-        res.buttons += `<button class="button-menu")">${name}</button>`;
-        res.sections += `<section class="${nameObj}" hidden>${fillSection(name, cur[1])}</section>`
-        return res;
-    },{"buttons":'',"sections":''});
-
+    let elements = {"buttons":'',"sections":''};
+    for(const key in allFotosJson) {
+        const name = key.replace("-s-","&#10076;s-").replace(/-/g, " ");
+        elements.buttons += `<button class="button-menu")">${name}</button>`;
+        elements.sections += `<section class="${key}" hidden>${fillSection(name, allFotosJson[key])}</section>`;
+    }
     divsInnerHtml(elements.buttons, elements.sections);
     foo();
 }

@@ -6,11 +6,11 @@ import { ImgClickListener } from "./ui/ImgClickListener.js";
 const detailsContainer = document.querySelector(".details-container");
 
 const showClose = new ShowCloseListener();
-showClose.addClickListener(() => showButtonsMakeSections(addImgButtonClickListeners));
+showClose.addClickListener(() =>  showButtonsMakeSections(addImgButtonClickListeners));
 
 function  addImgButtonClickListeners() {
-    const buttons = new ButtonsClickListener();
-    const img = new ImgClickListener();
+    new ButtonsClickListener();
+    new ImgClickListener();
 }
 
 function hideDetails() {
